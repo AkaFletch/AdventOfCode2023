@@ -52,12 +52,6 @@ func main() {
 		}
 		firstMatch := findFirstDigit(line)
 		lastMatch := findLastDigit(line)
-		fmt.Printf(
-			"%s %s + %s\n",
-			line,
-			firstMatch,
-			lastMatch,
-		)
 		stringValue := firstMatch + lastMatch
 		value, err := strconv.Atoi(stringValue)
 		if err != nil {
