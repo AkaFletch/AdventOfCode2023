@@ -41,8 +41,7 @@ func main() {
 		value, err := strconv.Atoi(matches[0] + matches[len(matches)-1])
 		if err != nil {
 			fmt.Printf(
-				"%s can't be converted to a number. Err %s\n",
-				value,
+				"Can't convert string to a number. Err %s\n",
 				err,
 			)
 			continue
