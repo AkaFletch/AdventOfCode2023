@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Day 3 Part 1")
+	fmt.Println("Day 3 Part 1 and 2")
 	args := os.Args[1:]
 	if len(args) < 1 {
 		fmt.Println("Provide input file path as command line arg")
