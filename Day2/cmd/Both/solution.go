@@ -16,7 +16,7 @@ type Game struct {
 }
 
 func main() {
-	fmt.Println("Part 1")
+	fmt.Println("Part 1 and 2")
 	args := os.Args[1:]
 	if len(args) < 1 {
 		fmt.Println("No filepath provided")
@@ -29,7 +29,8 @@ func main() {
 		return
 	}
 	lines := strings.Split(string(data), "\n")
-	count := 0
+	part1Count := 0
+	part2Count := 0
 	for _, line := range lines {
 		if line == "" {
 			continue
@@ -38,12 +39,14 @@ func main() {
 		if err != nil {
 			fmt.Printf("Error when parsing game %s\n", err)
 		}
+		part2Count += game.MaxRed * game.MaxBlue * game.MaxGreen
 		if game.MaxRed > 12 || game.MaxGreen > 13 || game.MaxBlue > 14 {
 			continue
 		}
-		count += game.GameID
+		part1Count += game.GameID
 	}
-	fmt.Printf("Final count %d\n", count)
+	fmt.Printf("Part 1 count %d\n", part1Count)
+	fmt.Printf("Part 2 count %d\n", part2Count)
 }
 
 func parseGame(line string) (Game, error) {
