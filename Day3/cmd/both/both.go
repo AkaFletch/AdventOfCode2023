@@ -25,7 +25,8 @@ func main() {
 	engineSchematic := string(data)
 	symbolRegex := regexp.MustCompile(`[^\d.\n]`)
 	symbolIndexes := symbolRegex.FindAllStringIndex(engineSchematic, -1)
-	sum := 0
+	part1Sum := 0
+	part2Sum := 0
 	for _, symbol := range symbolIndexes {
 		indexes := findNumbersAround(engineSchematic, symbol[0])
 		numbers, err := expandNumbers(engineSchematic, indexes)
@@ -33,10 +34,14 @@ func main() {
 			fmt.Printf("Failed to parse, err: %s", err)
 		}
 		for _, partNumber := range numbers {
-			sum += partNumber
+			part1Sum += partNumber
+		}
+		if engineSchematic[symbol[0]] == '*' && len(numbers) == 2 {
+			part2Sum += numbers[0] * numbers[1]
 		}
 	}
-	fmt.Printf("Final count is %d\n", sum)
+	fmt.Printf("Part 1 count is %d\n", part1Sum)
+	fmt.Printf("Part 2 count is %d\n", part2Sum)
 }
 
 func findNumbersAround(engineSchematic string, index int) []int {
