@@ -50,13 +50,10 @@ func findNumbersAround(engineSchematic string, index int) []int {
 	var foundNumbers []int
 	for x := -1; x < 2; x++ {
 		for y := -1; y < 2; y++ {
-			if index+x+y*lineLength > len(engineSchematic) {
-				continue
-			}
-			if x == 0 && y == 0 {
-				continue
-			}
-			if !unicode.IsNumber(rune(engineSchematic[index+x+y*lineLength])) {
+			lengthCheck := index+x+y*lineLength > len(engineSchematic)
+			skipSymbol := x == 0 && y == 0
+			numberCheck := !unicode.IsNumber(rune(engineSchematic[index+x+y*lineLength]))
+			if lengthCheck || skipSymbol || numberCheck {
 				continue
 			}
 			foundNumbers = append(foundNumbers, index+x+y*lineLength)
