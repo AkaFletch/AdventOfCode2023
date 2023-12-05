@@ -21,6 +21,7 @@ func main() {
 	data, err := os.ReadFile(args[0])
 	if err != nil {
 		fmt.Printf("Failed to read file %s err: %s", args[0], err)
+		return
 	}
 	engineSchematic := string(data)
 	symbolRegex := regexp.MustCompile(`[^\d.\n]`)
