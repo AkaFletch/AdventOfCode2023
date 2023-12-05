@@ -20,8 +20,7 @@ func main() {
 		fmt.Printf("Failed to read file, err: %s\n", err)
 		return
 	}
-	total := 0
-	copies := make(map[int]int)
+	total, copies := 0, make(map[int]int)
 	for index := 0; index < len(parsedCards); index++ {
 		card, count := parsedCards[index], 0
 		for _, guess := range card.CardNumbers {
