@@ -1,4 +1,4 @@
-package main
+package cardParser
 
 import (
 	"errors"
@@ -6,28 +6,21 @@ import (
 	"os"
 	"strconv"
 	"strings"
-
-	"golang.org/x/exp/slices"
 )
 
 type Card struct {
-	winningNumbers []int
-	cardNumbers    []int
+	ID             int
+	WinningNumbers []int
+	CardNumbers    []int
 }
 
-func main() {
-	fmt.Println("Day 4")
-	args := os.Args[1:]
-	if len(args) < 1 {
-		fmt.Println("Pass the input as a command line parameter.")
-		return
-	}
-	data, err := os.ReadFile(args[0])
+func ParseCardFile(filePath string) ([]Card, error) {
+	data, err := os.ReadFile(filePath)
 	if err != nil {
-		fmt.Printf("Failed to read file, err: %s\n", err)
+		return nil, err
 	}
 	cards := string(data)
-	total := 0
+	var parsedCards []Card
 	for _, line := range strings.Split(cards, "\n") {
 		if line == "" {
 			continue
@@ -35,22 +28,12 @@ func main() {
 		card, err := parseCard(line)
 		if err != nil {
 			fmt.Printf("Failed to parse input %s\n", err)
-			return
+			return nil, err
 		}
-		winningCount := 0
-		for _, guess := range card.cardNumbers {
-			if !slices.Contains(card.winningNumbers, guess) {
-				continue
-			}
-			if winningCount == 0 {
-				winningCount = 1
-				continue
-			}
-			winningCount *= 2
-		}
-		total += winningCount
+		card.ID = len(parsedCards) + 1
+		parsedCards = append(parsedCards, card)
 	}
-	fmt.Printf("Total %d\n", total)
+	return parsedCards, nil
 }
 
 func parseCard(line string) (Card, error) {
@@ -68,7 +51,7 @@ func parseCard(line string) (Card, error) {
 		if err != nil {
 			joinedErr = errors.Join(joinedErr, err)
 		}
-		card.winningNumbers = append(card.winningNumbers, number)
+		card.WinningNumbers = append(card.WinningNumbers, number)
 	}
 
 	cardNumbers := strings.Split(rhs, " ")
@@ -80,7 +63,7 @@ func parseCard(line string) (Card, error) {
 		if err != nil {
 			joinedErr = errors.Join(joinedErr, err)
 		}
-		card.cardNumbers = append(card.cardNumbers, number)
+		card.CardNumbers = append(card.CardNumbers, number)
 	}
 	return card, joinedErr
 }
